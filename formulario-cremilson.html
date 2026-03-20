@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulário de Pré-Inscrição — IFC São Bento do Sul</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f1eb;
+      --surface: #ffffff;
+      --surface2: #f0ede6;
+      --ink: #1a1612;
+      --accent: #2d6a4f;
+      --accent2: #52b788;
+      --warm: #bc6c25;
+      --muted: #7a7068;
+      --border: rgba(26,22,18,0.12);
+      --border-focus: #2d6a4f;
+      --error: #c1440e;
+      --radius: 10px;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 3rem 1rem 4rem;
+    }
+
+    /* subtle dot grid */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(circle, rgba(45,106,79,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+
+    .wrapper { width: 100%; max-width: 700px; animation: fadeUp 0.5s ease both; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HEADER ── */
+    .form-header {
+      background: var(--ink);
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 2.5rem 2.5rem 2.2rem;
+      position: relative; overflow: hidden;
+    }
+
+    .form-header::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--warm));
+    }
+
+    /* decorative circles */
+    .form-header::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(82,183,136,0.07);
+    }
+
+    .header-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent2);
+      background: rgba(82,183,136,0.1);
+      border: 1px solid rgba(82,183,136,0.25);
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+
+    .header-tag::before { content: '●'; font-size: 0.45rem; animation: pulse 2s infinite; }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .form-header h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+      color: #f4f1eb;
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+
+    .form-header h1 em {
+      font-style: italic;
+      color: var(--accent2);
+    }
+
+    .form-header p {
+      color: rgba(244,241,235,0.6);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    /* ── FORM BODY ── */
+    form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 2.5rem;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+
+    label .req { color: var(--warm); }
+
+    input, select, textarea {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input::placeholder, textarea::placeholder { color: #b0a898; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(45,106,79,0.12);
+      background: #fff;
+    }
+
+    input:valid:not(:placeholder-shown):not([type="range"]):not([type="checkbox"]) {
+      border-color: rgba(82,183,136,0.5);
+    }
+
+    input:invalid:not(:placeholder-shown):not(:focus):not([type="range"]):not([type="checkbox"]) {
+      border-color: rgba(193,68,14,0.4);
+    }
+
+    select option { background: #fff; }
+    textarea { resize: vertical; min-height: 100px; }
+
+    .hint {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: -0.6rem;
+    }
+
+    /* range */
+    input[type="range"] {
+      -webkit-appearance: none; appearance: none;
+      height: 5px;
+      background: var(--border);
+      border-radius: 3px;
+      padding: 0;
+      cursor: pointer;
+      border: none; box-shadow: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+
+    .range-labels {
+      display: flex; justify-content: space-between;
+      font-size: 0.68rem; color: var(--muted);
+      margin-top: 0.3rem;
+    }
+
+    .range-val {
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* checkboxes */
+    .check-group {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;
+    }
+
+    .check-label {
+      display: flex; align-items: center; gap: 0.65rem;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      user-select: none;
+    }
+
+    .check-label:hover { border-color: rgba(45,106,79,0.4); background: #eef7f2; }
+
+    .check-label input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+      padding: 0; border: none; background: none; box-shadow: none;
+    }
+
+    .check-label span { font-size: 0.87rem; }
+
+    /* divider */
+    .sep {
+      height: 1px; background: var(--border); margin: 0.2rem 0;
+    }
+
+    /* section label inside form */
+    .form-section {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(45,106,79,0.15);
+    }
+
+    /* submit row */
+    .submit-row {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      padding-top: 0.5rem;
+    }
+
+    .submit-row p { font-size: 0.78rem; color: var(--muted); }
+
+    button[type="submit"] {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem; font-weight: 600;
+      letter-spacing: 0.05em;
+      padding: 0.9rem 2.4rem;
+      background: var(--accent);
+      color: #fff;
+      border: none; border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    button[type="submit"]:hover { background: #235c3f; transform: translateY(-1px); }
+    button[type="submit"]:active { transform: translateY(0); }
+
+    /* success */
+    #success-msg {
+      display: none;
+      background: rgba(82,183,136,0.1);
+      border: 1.5px solid rgba(82,183,136,0.4);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    @media (max-width: 580px) {
+      .form-row, .check-group { grid-template-columns: 1fr; }
+      form, .form-header { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <div class="form-header">
+    <span class="header-tag">Inscrições Abertas · 2025</span>
+    <h1>Pré-Inscrição<br /><em>Curso de TI / Computação</em></h1>
+    <p>Preencha os dados abaixo para reservar sua vaga. Nossa equipe entrará em contato em até 48h.</p>
+  </div>
+
+  <form id="form" novalidate>
+
+    <!-- DADOS PESSOAIS -->
+    <p class="form-section">Dados Pessoais</p>
+
+    <!-- 1. text + email -->
+    <div class="form-row">
+      <div class="field">
+        <label for="nome">Nome completo <span class="req">*</span></label>
+        <input type="text" id="nome" name="nome"
+               placeholder="Ex: Cremilson Nunes"
+               required minlength="3" />
+      </div>
+      <div class="field">
+        <label for="email">E-mail <span class="req">*</span></label>
+        <input type="email" id="email" name="email"
+               placeholder="seu@email.com" required />
+      </div>
+    </div>
+
+    <!-- 2. tel + date -->
+    <div class="form-row">
+      <div class="field">
+        <label for="telefone">Telefone <span class="req">*</span></label>
+        <input type="tel" id="telefone" name="telefone"
+               placeholder="(47) 9 9999-9999"
+               pattern="\(?\d{2}\)?\s?\d{4,5}-?\d{4}" required />
+        <p class="hint">Formato: (DDD) 9 0000-0000</p>
+      </div>
+      <div class="field">
+        <label for="nascimento">Data de nascimento <span class="req">*</span></label>
+        <input type="date" id="nascimento" name="nascimento"
+               min="1950-01-01" max="2010-12-31" required />
+      </div>
+    </div>
+
+    <!-- 3. cidade + estado (text + text) -->
+    <div class="form-row">
+      <div class="field">
+        <label for="cidade">Cidade <span class="req">*</span></label>
+        <input type="text" id="cidade" name="cidade"
+               placeholder="São Bento do Sul" required minlength="2" />
+      </div>
+      <div class="field">
+        <label for="estado">Estado <span class="req">*</span></label>
+        <input type="text" id="estado" name="estado"
+               placeholder="SC" required minlength="2" maxlength="2" />
+      </div>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- FORMAÇÃO -->
+    <p class="form-section">Formação &amp; Experiência</p>
+
+    <!-- 4. select -->
+    <div class="field">
+      <label for="escolaridade">Escolaridade atual <span class="req">*</span></label>
+      <select id="escolaridade" name="escolaridade" required>
+        <option value="" disabled selected>Selecione seu nível de escolaridade</option>
+        <option value="medio">Ensino Médio completo</option>
+        <option value="tecnico">Técnico / Tecnólogo</option>
+        <option value="superior_inc">Superior incompleto</option>
+        <option value="superior">Superior completo</option>
+        <option value="pos">Pós-graduação</option>
+      </select>
+    </div>
+
+    <!-- 5. number -->
+    <div class="field">
+      <label for="horas">Horas disponíveis por semana <span class="req">*</span></label>
+      <input type="number" id="horas" name="horas"
+             min="4" max="40" step="1"
+             placeholder="Ex: 10" required />
+      <p class="hint">Mínimo: 4h — Máximo: 40h semanais</p>
+    </div>
+
+    <!-- 6. range -->
+    <div class="field">
+      <label for="nivel">
+        Nível em programação —&nbsp;<span class="range-val" id="nivel-text">Iniciante</span>
+      </label>
+      <input type="range" id="nivel" name="nivel" min="1" max="5" value="1" />
+      <div class="range-labels">
+        <span>Iniciante</span><span>Básico</span><span>Intermediário</span><span>Avançado</span><span>Expert</span>
+      </div>
+    </div>
+
+    <!-- 7. url -->
+    <div class="field">
+      <label for="github">GitHub ou Portfólio</label>
+      <input type="url" id="github" name="github"
+             placeholder="https://github.com/crezin" />
+      <p class="hint">Opcional — mas ajuda muito na avaliação!</p>
+    </div>
+
+    <div class="sep"></div>
+
+    <!-- CURSO -->
+    <p class="form-section">Preferências do Curso</p>
+
+    <!-- 8. checkboxes -->
+    <div class="field">
+      <label>Áreas de interesse <span class="req">*</span></label>
+      <div class="check-group">
+        <label class="check-label">
+          <input type="checkbox" name="area" value="infra" />
+          <span>Infraestrutura / Redes</span>
+        </label>
+        <label class="check-label">
+          <input type="checkbox" name="area" value="seg" />
+          <span>Segurança da Informação</span>
+        </label>
+        <label class="check-label">
+          <input type="checkbox" name="area" value="dev" />
+          <span>Desenvolvimento Web</span>
+        </label>
+        <label class="check-label">
+          <input type="checkbox" name="area" value="dados" />
+          <span>Análise de Dados</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 9. textarea -->
+    <div class="field">
+      <label for="motivacao">Por que quer se inscrever? <span class="req">*</span></label>
+      <textarea id="motivacao" name="motivacao"
+                placeholder="Conte sua motivação, experiências e objetivos..."
+                required minlength="30" maxlength="600"></textarea>
+      <p class="hint">Entre 30 e 600 caracteres.</p>
+    </div>
+
+    <div id="success-msg">✅ Pré-inscrição enviada com sucesso! Entraremos em contato em breve.</div>
+
+    <div class="submit-row">
+      <p>Campos com <span style="color:var(--warm)">*</span> são obrigatórios.</p>
+      <button type="submit">Enviar inscrição →</button>
+    </div>
+
+  </form>
+
+</div>
+
+<script>
+  // Range label
+  const nivels = ['Iniciante','Básico','Intermediário','Avançado','Expert'];
+  const nivelInput = document.getElementById('nivel');
+  const nivelText  = document.getElementById('nivel-text');
+  nivelInput.addEventListener('input', () => {
+    nivelText.textContent = nivels[nivelInput.value - 1];
+  });
+
+  // Submit
+  document.getElementById('form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const checked = document.querySelectorAll('input[name="area"]:checked');
+    if (checked.length === 0) {
+      alert('Selecione ao menos uma área de interesse.');
+      return;
+    }
+    if (this.checkValidity()) {
+      document.getElementById('success-msg').style.display = 'block';
+      this.querySelectorAll('input,select,textarea,button').forEach(el => el.disabled = true);
+      document.getElementById('success-msg').scrollIntoView({ behavior: 'smooth' });
+    } else {
+      this.reportValidity();
+    }
+  });
+</script>
+
+</body>
+</html>
