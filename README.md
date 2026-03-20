@@ -1,4 +1,9 @@
-﻿# portifolio
-## como acessar o portifolio:
+# 💼 Portfólio — Cremilson Pereira Nunes Junior
 
-### usando https://crezin.github.io/index para o portifolio  
+## 🌐 Como acessar o portfólio
+
+Acesse diretamente pelo navegador:
+
+👉 **https://crezin.github.io**
+
+> Ou pelo link completo: https://crezin.github.io/index.html
