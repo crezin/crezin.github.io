@@ -602,10 +602,16 @@ input[type=range].vol-slider::-webkit-slider-thumb {
     position: relative;
     z-index: 10;
   }
-  @media (max-width: 600px) {
+@media (max-width: 600px) {
+  /* reduz duração (menos processamento) */
   * {
-    animation: none !important;
-    transition: none !important;
+    animation-duration: 2.5s !important;
+  }
+
+  /* desliga só as mais pesadas */
+  .particle,
+  #music-player-box::before {
+    display: none !important;
   }
 }
 </style>
