@@ -201,34 +201,206 @@
   }
 
   /* ===== MÚSICA ===== */
-  #music-section {
-    margin: 0 auto 10px;
-    max-width: 500px;
-    width: 90%;
-  }
+  /* ===== MÚSICA CUSTOM ===== */
+#music-section {
+  margin: 0 auto 10px;
+  max-width: 500px;
+  width: 90%;
+}
 
-  .music-label {
-    font-style: italic;
-    color: var(--rose);
-    font-size: 0.85rem;
-    margin-bottom: 8px;
-    opacity: 0.8;
-  }
+#music-player-box {
+  background: linear-gradient(135deg, #3b0764ee, #1e1b4bee);
+  border: 1px solid #a855f766;
+  border-radius: 24px;
+  padding: 20px 24px;
+  box-shadow: 0 0 30px #7c3aed44, 0 0 60px #a855f722, inset 0 0 20px #00000033;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
 
-  #music-section audio {
-    width: 100%;
-    border-radius: 30px;
-    filter: hue-rotate(260deg) saturate(1.5);
-    opacity: 0.9;
-  }
+#music-player-box::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent 60%, #a855f711 80%, transparent 100%);
+  animation: rotateGlow 6s linear infinite;
+  pointer-events: none;
+}
 
-  #music-hint {
-    font-size: 0.75rem;
-    color: var(--purple-pale);
-    opacity: 0.6;
-    margin-top: 6px;
-    font-style: italic;
-  }
+@keyframes rotateGlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.music-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.music-icon {
+  font-size: 1.4rem;
+  animation: spinNote 3s ease-in-out infinite alternate;
+}
+@keyframes spinNote {
+  from { transform: rotate(-10deg) scale(1); }
+  to   { transform: rotate(10deg) scale(1.15); }
+}
+
+.music-title-text {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: #e9d5ff;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.music-waves {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  height: 36px;
+  margin-bottom: 16px;
+}
+
+.wave-bar {
+  width: 4px;
+  border-radius: 4px;
+  background: linear-gradient(to top, #7c3aed, #c084fc, #f0abfc);
+  box-shadow: 0 0 6px #a855f788;
+  transition: height 0.1s;
+}
+
+.wave-bar.playing {
+  animation: waveAnim var(--dur, 0.8s) ease-in-out infinite alternate;
+}
+
+@keyframes waveAnim {
+  from { height: 4px; }
+  to   { height: var(--h, 30px); }
+}
+
+.music-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.ctrl-btn {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  border: none;
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 15px #7c3aed88;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+  z-index: 1;
+}
+
+.ctrl-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 25px #a855f7cc;
+}
+
+.ctrl-btn.play-btn {
+  width: 56px; height: 56px;
+  font-size: 1.4rem;
+  background: linear-gradient(135deg, #a855f7, #c084fc, #f0abfc);
+  box-shadow: 0 0 25px #a855f7aa, 0 0 50px #7c3aed44;
+  animation: pulsePlay 2s ease-in-out infinite;
+}
+
+@keyframes pulsePlay {
+  0%, 100% { box-shadow: 0 0 20px #a855f7aa, 0 0 40px #7c3aed44; }
+  50%       { box-shadow: 0 0 35px #c084fccc, 0 0 70px #a855f766; }
+}
+
+.progress-track {
+  width: 100%;
+  height: 6px;
+  background: #ffffff15;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, #7c3aed, #c084fc, #f0abfc);
+  border-radius: 6px;
+  box-shadow: 0 0 10px #a855f766;
+  transition: width 0.3s linear;
+  position: relative;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: 50%;
+  transform: translateY(-50%);
+  width: 12px; height: 12px;
+  background: #f0abfc;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #f0abfccc;
+}
+
+.music-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #e9d5ff;
+  opacity: 0.6;
+  margin-top: 6px;
+}
+
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.vol-icon { font-size: 1rem; color: #e9d5ff; opacity: 0.7; }
+
+input[type=range].vol-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(to right, #a855f7 0%, #a855f7 70%, #ffffff22 70%);
+  outline: none;
+  cursor: pointer;
+}
+input[type=range].vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #c084fc;
+  box-shadow: 0 0 8px #a855f7aa;
+  cursor: pointer;
+}
+
+#music-hint {
+  font-size: 0.72rem;
+  color: #e9d5ff;
+  opacity: 0.55;
+  margin-top: 10px;
+  font-style: italic;
+}
 
   /* ===== GALERIA ===== */
   #galeria {
@@ -490,24 +662,45 @@
     </div>
   </div>
 
-  <!-- MÚSICA -->
-  <div id="music-section">
-    <div class="music-label">🎵 Nossa Música</div>
-    <!--
-    ══════════════════════════════════════════════
-    👉 COMO COLOCAR SUA MÚSICA:
-       1. Salve o arquivo de música (MP3) na mesma
-          pasta deste arquivo HTML
-       2. Substitua  "sua-musica.mp3"  pelo nome
-          do seu arquivo de música abaixo
-    ══════════════════════════════════════════════
-    -->
-    <audio id="player" controls loop>
-      <source src="We Are The People_spotdown.org.mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio.
-    </audio>
-    <div id="music-hint">⬆ Coloque o arquivo MP3 na mesma pasta e renomeie para "sua-musica.mp3"</div>
+<div id="music-section">
+  <audio id="player" loop>
+    <source src="We Are The People_spotdown.org.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="music-player-box">
+    <div class="music-title-row">
+      <span class="music-icon">🎵</span>
+      <span class="music-title-text">Nossa Música</span>
+      <span class="music-icon">🎵</span>
+    </div>
+
+    <div class="music-waves" id="waves"></div>
+
+    <div class="music-controls">
+      <button class="ctrl-btn" id="btn-prev">⏮</button>
+      <button class="ctrl-btn play-btn" id="btn-play">▶</button>
+      <button class="ctrl-btn" id="btn-mute">🔊</button>
+    </div>
+
+    <div class="music-progress-wrap">
+      <div class="progress-track" id="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="music-times">
+        <span id="time-cur">0:00</span>
+        <span id="time-tot">0:00</span>
+      </div>
+    </div>
+
+    <div class="volume-row">
+      <span class="vol-icon">🔈</span>
+      <input type="range" class="vol-slider" id="vol-slider" min="0" max="1" step="0.05" value="0.7">
+      <span class="vol-icon">🔊</span>
+    </div>
   </div>
+
+  <div id="music-hint">Coloque o MP3 na mesma pasta e renomeie para "sua-musica.mp3"</div>
+</div>
 </header>
 
 <!-- ===== GALERIA ===== -->
@@ -735,6 +928,89 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.2 });
 
 document.querySelectorAll('.foto-card').forEach(el => observer.observe(el));
+const audio     = document.getElementById('player');
+const btnPlay   = document.getElementById('btn-play');
+const btnPrev   = document.getElementById('btn-prev');
+const btnMute   = document.getElementById('btn-mute');
+const fill      = document.getElementById('progress-fill');
+const track     = document.getElementById('progress-track');
+const timeCur   = document.getElementById('time-cur');
+const timeTot   = document.getElementById('time-tot');
+const volSlider = document.getElementById('vol-slider');
+const wavesDiv  = document.getElementById('waves');
+
+const NUM_BARS = 20;
+const bars = [];
+for(let i = 0; i < NUM_BARS; i++) {
+  const b = document.createElement('div');
+  b.className = 'wave-bar';
+  const h = 6 + Math.random() * 28;
+  b.style.setProperty('--h', h + 'px');
+  b.style.setProperty('--dur', (0.4 + Math.random() * 0.7) + 's');
+  b.style.height = '4px';
+  b.style.animationDelay = (Math.random() * 0.5) + 's';
+  wavesDiv.appendChild(b);
+  bars.push(b);
+}
+
+let playing = false;
+
+function setPlaying(state) {
+  playing = state;
+  btnPlay.textContent = playing ? '⏸' : '▶';
+  bars.forEach(b => {
+    if(playing) b.classList.add('playing');
+    else { b.classList.remove('playing'); b.style.height = '4px'; }
+  });
+}
+
+btnPlay.addEventListener('click', () => {
+  if(playing) { audio.pause(); setPlaying(false); }
+  else { audio.play().catch(()=>{}); setPlaying(true); }
+});
+
+btnPrev.addEventListener('click', () => {
+  audio.currentTime = 0;
+  if(!playing) { audio.play().catch(()=>{}); setPlaying(true); }
+});
+
+let muted = false;
+btnMute.addEventListener('click', () => {
+  muted = !muted;
+  audio.muted = muted;
+  btnMute.textContent = muted ? '🔇' : '🔊';
+});
+
+audio.volume = 0.7;
+volSlider.addEventListener('input', () => {
+  audio.volume = volSlider.value;
+  const pct = volSlider.value * 100;
+  volSlider.style.background = `linear-gradient(to right, #a855f7 0%, #a855f7 ${pct}%, #ffffff22 ${pct}%)`;
+});
+
+function fmt(s) {
+  const m = Math.floor(s/60);
+  return m + ':' + String(Math.floor(s%60)).padStart(2,'0');
+}
+
+audio.addEventListener('timeupdate', () => {
+  if(!audio.duration) return;
+  const pct = (audio.currentTime / audio.duration) * 100;
+  fill.style.width = pct + '%';
+  timeCur.textContent = fmt(audio.currentTime);
+});
+
+audio.addEventListener('loadedmetadata', () => {
+  timeTot.textContent = fmt(audio.duration);
+});
+
+audio.addEventListener('ended', () => setPlaying(false));
+
+track.addEventListener('click', (e) => {
+  const rect = track.getBoundingClientRect();
+  const pct  = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = pct * audio.duration;
+});
 </script>
 </body>
 </html>
