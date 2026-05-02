@@ -201,7 +201,7 @@
   }
 
   /* ===== MÚSICA ===== */
-  /* ===== MÚSICA CUSTOM ===== */
+ /* ===== PLAYER DE MÚSICA ===== */
 #music-section {
   margin: 0 auto 10px;
   max-width: 500px;
@@ -211,12 +211,15 @@
 #music-player-box {
   background: linear-gradient(135deg, #3b0764ee, #1e1b4bee);
   border: 1px solid #a855f766;
-  border-radius: 24px;
-  padding: 20px 24px;
+  border-radius: 28px;
+  padding: 22px 24px;
   box-shadow: 0 0 30px #7c3aed44, 0 0 60px #a855f722, inset 0 0 20px #00000033;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   position: relative;
   overflow: hidden;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 #music-player-box::before {
@@ -224,11 +227,11 @@
   position: absolute;
   top: -50%; left: -50%;
   width: 200%; height: 200%;
-  background: conic-gradient(from 0deg, transparent 60%, #a855f711 80%, transparent 100%);
-  animation: rotateGlow 6s linear infinite;
+  background: conic-gradient(from 0deg, transparent 60%, #a855f718 80%, transparent 100%);
+  animation: rotateGlow 8s linear infinite;
   pointer-events: none;
+  will-change: transform;
 }
-
 @keyframes rotateGlow {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
@@ -239,18 +242,18 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
-
 .music-icon {
   font-size: 1.4rem;
   animation: spinNote 3s ease-in-out infinite alternate;
+  display: inline-block;
+  will-change: transform;
 }
 @keyframes spinNote {
   from { transform: rotate(-10deg) scale(1); }
   to   { transform: rotate(10deg) scale(1.15); }
 }
-
 .music-title-text {
   font-family: 'Playfair Display', serif;
   font-style: italic;
@@ -259,72 +262,96 @@
   letter-spacing: 1px;
 }
 
+/* ondas animadas */
 .music-waves {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 4px;
-  height: 36px;
-  margin-bottom: 16px;
+  gap: 3px;
+  height: 40px;
+  margin-bottom: 18px;
 }
-
 .wave-bar {
   width: 4px;
   border-radius: 4px;
   background: linear-gradient(to top, #7c3aed, #c084fc, #f0abfc);
-  box-shadow: 0 0 6px #a855f788;
-  transition: height 0.1s;
+  box-shadow: 0 0 5px #a855f766;
+  height: 4px;
+  will-change: height;
 }
-
 .wave-bar.playing {
   animation: waveAnim var(--dur, 0.8s) ease-in-out infinite alternate;
 }
-
 @keyframes waveAnim {
   from { height: 4px; }
   to   { height: var(--h, 30px); }
 }
 
+/* controles */
 .music-controls {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-bottom: 14px;
+  gap: 20px;
+  margin-bottom: 18px;
 }
 
 .ctrl-btn {
   background: linear-gradient(135deg, #7c3aed, #a855f7);
   border: none;
   border-radius: 50%;
-  width: 44px; height: 44px;
+  width: 50px; height: 50px;
   color: white;
   font-size: 1.1rem;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 0 15px #7c3aed88;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: transform 0.12s cubic-bezier(.34,1.56,.64,1),
+              box-shadow 0.12s ease;
   position: relative;
   z-index: 1;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  will-change: transform;
+  overflow: hidden;
 }
-
-.ctrl-btn:hover {
-  transform: scale(1.12);
-  box-shadow: 0 0 25px #a855f7cc;
+.ctrl-btn:active {
+  transform: scale(0.88) !important;
+  box-shadow: 0 0 8px #7c3aed55 !important;
 }
 
 .ctrl-btn.play-btn {
-  width: 56px; height: 56px;
-  font-size: 1.4rem;
+  width: 64px; height: 64px;
+  font-size: 1.5rem;
   background: linear-gradient(135deg, #a855f7, #c084fc, #f0abfc);
-  box-shadow: 0 0 25px #a855f7aa, 0 0 50px #7c3aed44;
-  animation: pulsePlay 2s ease-in-out infinite;
+  box-shadow: 0 0 25px #a855f7bb, 0 0 50px #7c3aed44;
+  animation: pulsePlay 2.5s ease-in-out infinite;
 }
-
+.ctrl-btn.play-btn:active {
+  animation: none !important;
+  transform: scale(0.88) !important;
+}
 @keyframes pulsePlay {
   0%, 100% { box-shadow: 0 0 20px #a855f7aa, 0 0 40px #7c3aed44; }
-  50%       { box-shadow: 0 0 35px #c084fccc, 0 0 70px #a855f766; }
+  50%       { box-shadow: 0 0 40px #c084fccc, 0 0 80px #a855f766; }
 }
+
+/* ripple ao clicar */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  transform: scale(0);
+  animation: rippleAnim 0.45s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes rippleAnim {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* barra de progresso */
+.music-progress-wrap { position: relative; margin-bottom: 10px; }
 
 .progress-track {
   width: 100%;
@@ -333,28 +360,26 @@
   border-radius: 6px;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+  touch-action: none;
 }
-
 .progress-fill {
   height: 100%;
   width: 0%;
   background: linear-gradient(to right, #7c3aed, #c084fc, #f0abfc);
   border-radius: 6px;
   box-shadow: 0 0 10px #a855f766;
-  transition: width 0.3s linear;
+  transition: width 0.25s linear;
   position: relative;
 }
-
 .progress-fill::after {
   content: '';
   position: absolute;
-  right: -1px; top: 50%;
+  right: -6px; top: 50%;
   transform: translateY(-50%);
-  width: 12px; height: 12px;
+  width: 14px; height: 14px;
   background: #f0abfc;
   border-radius: 50%;
-  box-shadow: 0 0 8px #f0abfccc;
+  box-shadow: 0 0 10px #f0abfccc;
 }
 
 .music-times {
@@ -363,41 +388,44 @@
   font-size: 0.7rem;
   color: #e9d5ff;
   opacity: 0.6;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
+/* volume */
 .volume-row {
   display: flex;
   align-items: center;
   gap: 10px;
   justify-content: center;
+  margin-top: 4px;
 }
-
 .vol-icon { font-size: 1rem; color: #e9d5ff; opacity: 0.7; }
 
 input[type=range].vol-slider {
-  -webkit-appearance: none;
   appearance: none;
-  width: 120px;
-  height: 4px;
-  border-radius: 4px;
+  -webkit-appearance: none;
+  width: 130px;
+  height: 5px;
+  border-radius: 5px;
   background: linear-gradient(to right, #a855f7 0%, #a855f7 70%, #ffffff22 70%);
   outline: none;
   cursor: pointer;
+  touch-action: none;
 }
 input[type=range].vol-slider::-webkit-slider-thumb {
+  appearance: none;
   -webkit-appearance: none;
-  width: 14px; height: 14px;
+  width: 18px; height: 18px;
   border-radius: 50%;
   background: #c084fc;
-  box-shadow: 0 0 8px #a855f7aa;
+  box-shadow: 0 0 10px #a855f7aa;
   cursor: pointer;
 }
 
 #music-hint {
   font-size: 0.72rem;
   color: #e9d5ff;
-  opacity: 0.55;
+  opacity: 0.5;
   margin-top: 10px;
   font-style: italic;
 }
@@ -663,25 +691,32 @@ input[type=range].vol-slider::-webkit-slider-thumb {
   </div>
 
 <div id="music-section">
-  <audio id="player" loop>
-    <source src="We Are The People_spotdown.org.mp3" type="audio/mpeg">
-  </audio>
+  <!-- 👉 Troque "sua-musica.mp3" pelo nome do seu arquivo -->
+<audio id="player" loop>
+  <source src="We Are The People_spotdown.org.mp3" type="audio/mpeg">
+</audio>
 
+<div id="music-section">
   <div id="music-player-box">
+
+    <!-- título -->
     <div class="music-title-row">
       <span class="music-icon">🎵</span>
       <span class="music-title-text">Nossa Música</span>
       <span class="music-icon">🎵</span>
     </div>
 
+    <!-- ondas -->
     <div class="music-waves" id="waves"></div>
 
+    <!-- botões -->
     <div class="music-controls">
       <button class="ctrl-btn" id="btn-prev">⏮</button>
       <button class="ctrl-btn play-btn" id="btn-play">▶</button>
       <button class="ctrl-btn" id="btn-mute">🔊</button>
     </div>
 
+    <!-- progresso -->
     <div class="music-progress-wrap">
       <div class="progress-track" id="progress-track">
         <div class="progress-fill" id="progress-fill"></div>
@@ -692,14 +727,15 @@ input[type=range].vol-slider::-webkit-slider-thumb {
       </div>
     </div>
 
+    <!-- volume -->
     <div class="volume-row">
       <span class="vol-icon">🔈</span>
       <input type="range" class="vol-slider" id="vol-slider" min="0" max="1" step="0.05" value="0.7">
       <span class="vol-icon">🔊</span>
     </div>
-  </div>
 
-  <div id="music-hint">Coloque o MP3 na mesma pasta e renomeie para "sua-musica.mp3"</div>
+  </div>
+  <div id="music-hint">⬆ Coloque o MP3 na mesma pasta e renomeie para "sua-musica.mp3"</div>
 </div>
 </header>
 
@@ -928,6 +964,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.2 });
 
 document.querySelectorAll('.foto-card').forEach(el => observer.observe(el));
+// ===== PLAYER DE MÚSICA =====
 const audio     = document.getElementById('player');
 const btnPlay   = document.getElementById('btn-play');
 const btnPrev   = document.getElementById('btn-prev');
@@ -939,16 +976,16 @@ const timeTot   = document.getElementById('time-tot');
 const volSlider = document.getElementById('vol-slider');
 const wavesDiv  = document.getElementById('waves');
 
-const NUM_BARS = 20;
+// gera as barras de onda
+const NUM_BARS = 22;
 const bars = [];
-for(let i = 0; i < NUM_BARS; i++) {
+for (let i = 0; i < NUM_BARS; i++) {
   const b = document.createElement('div');
   b.className = 'wave-bar';
-  const h = 6 + Math.random() * 28;
+  const h = 6 + Math.random() * 32;
   b.style.setProperty('--h', h + 'px');
-  b.style.setProperty('--dur', (0.4 + Math.random() * 0.7) + 's');
-  b.style.height = '4px';
-  b.style.animationDelay = (Math.random() * 0.5) + 's';
+  b.style.setProperty('--dur', (0.35 + Math.random() * 0.6) + 's');
+  b.style.animationDelay = (Math.random() * 0.4) + 's';
   wavesDiv.appendChild(b);
   bars.push(b);
 }
@@ -959,58 +996,81 @@ function setPlaying(state) {
   playing = state;
   btnPlay.textContent = playing ? '⏸' : '▶';
   bars.forEach(b => {
-    if(playing) b.classList.add('playing');
+    if (playing) b.classList.add('playing');
     else { b.classList.remove('playing'); b.style.height = '4px'; }
   });
 }
 
-btnPlay.addEventListener('click', () => {
-  if(playing) { audio.pause(); setPlaying(false); }
-  else { audio.play().catch(()=>{}); setPlaying(true); }
+// efeito ripple ao clicar nos botões
+function addRipple(btn, e) {
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  const x = (e.clientX || e.touches?.[0]?.clientX || rect.left + rect.width/2) - rect.left - size/2;
+  const y = (e.clientY || e.touches?.[0]?.clientY || rect.top + rect.height/2) - rect.top - size/2;
+  r.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+  btn.appendChild(r);
+  setTimeout(() => r.remove(), 500);
+}
+
+// play / pause
+btnPlay.addEventListener('click', (e) => {
+  addRipple(btnPlay, e);
+  if (playing) { audio.pause(); setPlaying(false); }
+  else { audio.play().catch(() => {}); setPlaying(true); }
 });
 
-btnPrev.addEventListener('click', () => {
+// reiniciar
+btnPrev.addEventListener('click', (e) => {
+  addRipple(btnPrev, e);
   audio.currentTime = 0;
-  if(!playing) { audio.play().catch(()=>{}); setPlaying(true); }
+  if (!playing) { audio.play().catch(() => {}); setPlaying(true); }
 });
 
+// mudo
 let muted = false;
-btnMute.addEventListener('click', () => {
+btnMute.addEventListener('click', (e) => {
+  addRipple(btnMute, e);
   muted = !muted;
   audio.muted = muted;
   btnMute.textContent = muted ? '🔇' : '🔊';
 });
 
+// volume
 audio.volume = 0.7;
 volSlider.addEventListener('input', () => {
   audio.volume = volSlider.value;
   const pct = volSlider.value * 100;
-  volSlider.style.background = `linear-gradient(to right, #a855f7 0%, #a855f7 ${pct}%, #ffffff22 ${pct}%)`;
+  volSlider.style.background =
+    `linear-gradient(to right, #a855f7 0%, #a855f7 ${pct}%, #ffffff22 ${pct}%)`;
 });
 
+// tempo
 function fmt(s) {
-  const m = Math.floor(s/60);
-  return m + ':' + String(Math.floor(s%60)).padStart(2,'0');
+  const m = Math.floor(s / 60);
+  return m + ':' + String(Math.floor(s % 60)).padStart(2, '0');
 }
-
 audio.addEventListener('timeupdate', () => {
-  if(!audio.duration) return;
+  if (!audio.duration) return;
   const pct = (audio.currentTime / audio.duration) * 100;
   fill.style.width = pct + '%';
   timeCur.textContent = fmt(audio.currentTime);
 });
-
 audio.addEventListener('loadedmetadata', () => {
   timeTot.textContent = fmt(audio.duration);
 });
-
 audio.addEventListener('ended', () => setPlaying(false));
 
-track.addEventListener('click', (e) => {
+// progresso clicável e arrastável (funciona no celular também)
+function seekTo(e) {
   const rect = track.getBoundingClientRect();
-  const pct  = (e.clientX - rect.left) / rect.width;
+  const x = (e.clientX ?? e.touches?.[0]?.clientX) - rect.left;
+  const pct = Math.max(0, Math.min(1, x / rect.width));
   audio.currentTime = pct * audio.duration;
-});
+}
+track.addEventListener('click', seekTo);
+track.addEventListener('touchstart', seekTo, { passive: true });
 </script>
 </body>
 </html>
