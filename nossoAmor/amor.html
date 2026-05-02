@@ -392,14 +392,8 @@
 }
 
 /* volume */
-.volume-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 4px;
-}
-.vol-icon { font-size: 1rem; color: #e9d5ff; opacity: 0.7; }
+
+
 
 input[type=range].vol-slider {
   appearance: none;
@@ -737,7 +731,7 @@ input[type=range].vol-slider::-webkit-slider-thumb {
 
     <!-- botões -->
     <div class="music-controls">
-      <button class="ctrl-btn" id="btn-prev">⏮</button>
+
       <button class="ctrl-btn play-btn" id="btn-play">▶</button>
       <button class="ctrl-btn" id="btn-mute">🔊</button>
     </div>
@@ -753,12 +747,8 @@ input[type=range].vol-slider::-webkit-slider-thumb {
       </div>
     </div>
 
-    <!-- volume -->
-    <div class="volume-row">
-      <span class="vol-icon">🔈</span>
-      <input type="range" class="vol-slider" id="vol-slider" min="0" max="1" step="0.05" value="0.7">
-      <span class="vol-icon">🔊</span>
-    </div>
+   
+
 
   </div>
   <div id="music-hint"></div>
@@ -1012,13 +1002,11 @@ document.querySelectorAll('.foto-card').forEach(el => observer.observe(el));
 // ===== PLAYER DE MÚSICA =====
 const audio     = document.getElementById('player');
 const btnPlay   = document.getElementById('btn-play');
-const btnPrev   = document.getElementById('btn-prev');
 const btnMute   = document.getElementById('btn-mute');
 const fill      = document.getElementById('progress-fill');
 const track     = document.getElementById('progress-track');
 const timeCur   = document.getElementById('time-cur');
 const timeTot   = document.getElementById('time-tot');
-const volSlider = document.getElementById('vol-slider');
 const wavesDiv  = document.getElementById('waves');
 
 // gera as barras de onda
@@ -1066,12 +1054,7 @@ btnPlay.addEventListener('click', (e) => {
   else { audio.play().catch(() => {}); setPlaying(true); }
 });
 
-// reiniciar
-btnPrev.addEventListener('click', (e) => {
-  addRipple(btnPrev, e);
-  audio.currentTime = 0;
-  if (!playing) { audio.play().catch(() => {}); setPlaying(true); }
-});
+
 
 // mudo
 let muted = false;
@@ -1082,14 +1065,7 @@ btnMute.addEventListener('click', (e) => {
   btnMute.textContent = muted ? '🔇' : '🔊';
 });
 
-// volume
-audio.volume = 0.7;
-volSlider.addEventListener('input', () => {
-  audio.volume = volSlider.value;
-  const pct = volSlider.value * 100;
-  volSlider.style.background =
-    `linear-gradient(to right, #a855f7 0%, #a855f7 ${pct}%, #ffffff22 ${pct}%)`;
-});
+
 
 // tempo
 function fmt(s) {
