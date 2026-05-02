@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nossa História de Amor 💜</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple-deep: #2d0a4e;
+    --purple-mid: #6b21a8;
+    --purple-light: #a855f7;
+    --purple-pale: #e9d5ff;
+    --rose: #f0abfc;
+    --gold: #f5c842;
+    --cream: #fdf4ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--purple-deep);
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--cream);
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ctext y='16' font-size='16'%3E💜%3C/text%3E%3C/svg%3E"), auto;
+  }
+
+  /* ===== FLORES DE FUNDO ===== */
+  .flower-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .flower-bg svg {
+    position: absolute;
+    opacity: 0.12;
+  }
+
+  /* ===== PARTÍCULAS FLUTUANTES ===== */
+  .particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .particle {
+    position: absolute;
+    font-size: 1.2rem;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ===== BORDAS DE FLORES ===== */
+  .border-flowers {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .flower-corner {
+    position: absolute;
+    font-size: 2rem;
+    filter: drop-shadow(0 0 8px #a855f7aa);
+  }
+  .fc-tl { top: 10px; left: 10px; }
+  .fc-tr { top: 10px; right: 10px; transform: scaleX(-1); }
+  .fc-bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+  .fc-br { bottom: 10px; right: 10px; transform: scale(-1); }
+
+  .flower-side-left, .flower-side-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 6px #c084fc88);
+  }
+  .flower-side-left { left: 8px; }
+  .flower-side-right { right: 8px; }
+
+  /* ===== TOPO ===== */
+  #topo {
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(180deg, #1a0533 0%, var(--purple-deep) 100%);
+    padding: 40px 20px 50px;
+    text-align: center;
+    border-bottom: 2px solid #6b21a855;
+  }
+
+  #topo::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0; right: 0;
+    height: 40px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40'%3E%3Cpath d='M0,20 Q300,0 600,20 T1200,20 L1200,40 L0,40 Z' fill='%232d0a4e'/%3E%3C/svg%3E") no-repeat center/cover;
+  }
+
+  .titulo-site {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-style: italic;
+    color: var(--purple-pale);
+    text-shadow: 0 0 30px #a855f7, 0 0 60px #7c3aed55;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    animation: glow 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 20px #a855f7, 0 0 40px #7c3aed44; }
+    to   { text-shadow: 0 0 40px #c084fc, 0 0 80px #a855f766, 0 0 120px #7c3aed33; }
+  }
+
+  .subtitulo {
+    font-style: italic;
+    color: var(--rose);
+    font-size: 1.1rem;
+    opacity: 0.85;
+    margin-bottom: 30px;
+  }
+
+  /* ===== TEMPORIZADOR ===== */
+  #timer-section {
+    background: linear-gradient(135deg, #3b0764cc, #1e1b4bcc);
+    border: 1px solid #7c3aed55;
+    border-radius: 20px;
+    padding: 25px 20px;
+    display: inline-block;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px #7c3aed33, inset 0 0 20px #00000033;
+    margin: 0 auto 25px;
+    max-width: 600px;
+    width: 90%;
+  }
+
+  .timer-label {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--purple-pale);
+    font-size: 1rem;
+    margin-bottom: 15px;
+    opacity: 0.9;
+  }
+
+  .timer-blocks {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .timer-block {
+    text-align: center;
+    min-width: 70px;
+  }
+
+  .timer-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-shadow: 0 0 20px #f5c84288;
+    line-height: 1;
+    display: block;
+  }
+
+  .timer-unit {
+    font-size: 0.7rem;
+    color: var(--purple-pale);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.8;
+  }
+
+  .timer-sep {
+    font-size: 2rem;
+    color: var(--purple-light);
+    opacity: 0.6;
+    align-self: center;
+    margin-top: -8px;
+  }
+
+  /* ===== MÚSICA ===== */
+  #music-section {
+    margin: 0 auto 10px;
+    max-width: 500px;
+    width: 90%;
+  }
+
+  .music-label {
+    font-style: italic;
+    color: var(--rose);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    opacity: 0.8;
+  }
+
+  #music-section audio {
+    width: 100%;
+    border-radius: 30px;
+    filter: hue-rotate(260deg) saturate(1.5);
+    opacity: 0.9;
+  }
+
+  #music-hint {
+    font-size: 0.75rem;
+    color: var(--purple-pale);
+    opacity: 0.6;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  /* ===== GALERIA ===== */
+  #galeria {
+    position: relative;
+    z-index: 10;
+    padding: 60px 0 40px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    text-align: center;
+    font-size: 2rem;
+    color: var(--purple-pale);
+    margin-bottom: 50px;
+    opacity: 0.9;
+  }
+
+  /* ===== CADA FOTO = 1 SEÇÃO DE SCROLL ===== */
+  .foto-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+  }
+
+  .foto-section:nth-child(odd) {
+    background: linear-gradient(135deg, #1a0533 0%, #2d0a4e 100%);
+  }
+  .foto-section:nth-child(even) {
+    background: linear-gradient(135deg, #0f0025 0%, #1e0541 100%);
+  }
+
+  .foto-card {
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    animation: fadeInCard 0.8s ease both;
+  }
+
+  @keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .foto-frame {
+    position: relative;
+    display: inline-block;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 0 3px #7c3aed55, 0 0 40px #7c3aed44, 0 20px 60px #00000088;
+  }
+
+  .foto-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #a855f722 0%, transparent 50%, #7c3aed22 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .foto-frame img {
+    display: block;
+    max-width: 100%;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 14px;
+  }
+
+  /* Placeholder quando não tem imagem */
+  .foto-placeholder {
+    width: 320px;
+    height: 400px;
+    background: linear-gradient(135deg, #3b0764, #1e1b4b);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: var(--purple-pale);
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+  .foto-placeholder span { font-size: 3rem; }
+
+  .foto-legenda {
+    margin-top: 24px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--purple-pale);
+    text-shadow: 0 0 20px #a855f766;
+    line-height: 1.6;
+  }
+
+  .foto-numero {
+    font-size: 0.75rem;
+    color: var(--purple-light);
+    opacity: 0.5;
+    margin-top: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  /* ===== DECORAÇÕES ENTRE FOTOS ===== */
+  .divider {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--purple-light);
+    opacity: 0.4;
+    padding: 10px 0;
+    letter-spacing: 10px;
+  }
+
+  /* ===== RODAPÉ ===== */
+  footer {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(0deg, #0f0020 0%, var(--purple-deep) 100%);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--rose);
+    text-shadow: 0 0 20px #f0abfc55;
+  }
+
+  footer .heart {
+    font-size: 2rem;
+    animation: heartbeat 1.5s ease-in-out infinite;
+    display: block;
+    margin: 10px 0;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  /* ===== SCROLL SUAVE ===== */
+  html { scroll-behavior: smooth; }
+
+  /* ===== RESPONSIVO ===== */
+  @media (max-width: 600px) {
+    .timer-num { font-size: 1.8rem; }
+    .timer-block { min-width: 50px; }
+    .flower-side-left, .flower-side-right { display: none; }
+  }
+
+  /* ===== INSTRUÇÃO DE EDIÇÃO ===== */
+  #instrucoes {
+    background: linear-gradient(135deg, #1e0541cc, #0f0025cc);
+    border: 1px dashed #6b21a866;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 700px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--purple-pale);
+    opacity: 0.7;
+    position: relative;
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+
+<!-- FLORES DE FUNDO -->
+<div class="flower-bg">
+  <svg style="top:-5%;left:-5%;width:40%;opacity:0.08" viewBox="0 0 200 200" fill="none">
+    <circle cx="100" cy="100" r="90" fill="#7c3aed22"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#a855f7"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#a855f7" transform="rotate(45,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#a855f7" transform="rotate(90,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#a855f7" transform="rotate(135,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#c084fc" transform="rotate(180,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#c084fc" transform="rotate(225,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#c084fc" transform="rotate(270,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#c084fc" transform="rotate(315,100,100)"/>
+    <circle cx="100" cy="100" r="15" fill="#e9d5ff"/>
+  </svg>
+  <svg style="bottom:-5%;right:-5%;width:35%;opacity:0.08" viewBox="0 0 200 200" fill="none">
+    <circle cx="100" cy="100" r="90" fill="#7c3aed22"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#a855f7"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#a855f7" transform="rotate(60,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#a855f7" transform="rotate(120,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#c084fc" transform="rotate(180,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#c084fc" transform="rotate(240,100,100)"/>
+    <path d="M100 20 Q120 60 100 100 Q80 60 100 20Z" fill="#c084fc" transform="rotate(300,100,100)"/>
+    <circle cx="100" cy="100" r="15" fill="#e9d5ff"/>
+  </svg>
+</div>
+
+<!-- BORDAS DE FLORES -->
+<div class="border-flowers">
+  <div class="flower-corner fc-tl">🌸💜🌺</div>
+  <div class="flower-corner fc-tr">🌸💜🌺</div>
+  <div class="flower-corner fc-bl">🌺💜🌸</div>
+  <div class="flower-corner fc-br">🌺💜🌸</div>
+  <div class="flower-side-left">
+    <span>🌷</span><span>💜</span><span>🌸</span><span>💜</span><span>🌷</span><span>💜</span><span>🌸</span>
+  </div>
+  <div class="flower-side-right">
+    <span>🌸</span><span>💜</span><span>🌷</span><span>💜</span><span>🌸</span><span>💜</span><span>🌷</span>
+  </div>
+</div>
+
+<!-- PARTÍCULAS -->
+<div class="particles" id="particles"></div>
+
+<!-- ===== TOPO ===== -->
+<header id="topo">
+  <div class="titulo-site">Nossa História de Amor</div>
+  <div class="subtitulo">✦ cada momento contigo é eterno ✦</div>
+
+  <!-- TEMPORIZADOR -->
+  <div id="timer-section">
+    <div class="timer-label">💜 Juntos há...</div>
+    <div class="timer-blocks">
+      <div class="timer-block">
+        <span class="timer-num" id="t-anos">0</span>
+        <span class="timer-unit">anos</span>
+      </div>
+      <span class="timer-sep">·</span>
+      <div class="timer-block">
+        <span class="timer-num" id="t-meses">0</span>
+        <span class="timer-unit">meses</span>
+      </div>
+      <span class="timer-sep">·</span>
+      <div class="timer-block">
+        <span class="timer-num" id="t-dias">0</span>
+        <span class="timer-unit">dias</span>
+      </div>
+      <span class="timer-sep">·</span>
+      <div class="timer-block">
+        <span class="timer-num" id="t-horas">0</span>
+        <span class="timer-unit">horas</span>
+      </div>
+      <span class="timer-sep">·</span>
+      <div class="timer-block">
+        <span class="timer-num" id="t-min">0</span>
+        <span class="timer-unit">min</span>
+      </div>
+      <span class="timer-sep">·</span>
+      <div class="timer-block">
+        <span class="timer-num" id="t-seg">0</span>
+        <span class="timer-unit">seg</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÚSICA -->
+  <div id="music-section">
+    <div class="music-label">🎵 Nossa Música</div>
+    <!--
+    ══════════════════════════════════════════════
+    👉 COMO COLOCAR SUA MÚSICA:
+       1. Salve o arquivo de música (MP3) na mesma
+          pasta deste arquivo HTML
+       2. Substitua  "sua-musica.mp3"  pelo nome
+          do seu arquivo de música abaixo
+    ══════════════════════════════════════════════
+    -->
+    <audio id="player" controls loop>
+      <source src="We Are The People_spotdown.org.mp3" type="audio/mpeg">
+      Seu navegador não suporta áudio.
+    </audio>
+    <div id="music-hint">⬆ Coloque o arquivo MP3 na mesma pasta e renomeie para "sua-musica.mp3"</div>
+  </div>
+</header>
+
+<!-- ===== GALERIA ===== -->
+<section id="galeria">
+  <div class="section-title">✦ Nossa Galeria ✦</div>
+
+  <!--
+  ════════════════════════════════════════════════════
+  📸 COMO ADICIONAR SUAS FOTOS:
+     • Salve seus arquivos JPG/PNG na mesma pasta
+       deste arquivo HTML
+     • Em cada bloco abaixo, substitua "foto1.jpg"
+       pelo nome do seu arquivo de foto
+     • Troque também o texto da legenda
+     • Para ADICIONAR mais fotos: copie um bloco
+       inteiro (do <div class="foto-section"> até
+       o </div> de fechamento) e cole abaixo
+  ════════════════════════════════════════════════════
+  -->
+
+  <!-- ====== FOTO 1 ====== -->
+  <div class="foto-section">
+    <div class="foto-card">
+      <div class="foto-frame">
+        <!--
+          👉 Troque "foto1.jpg" pelo nome da sua foto
+          Exemplo: <img src="praia.jpg" alt="Na praia">
+        -->
+        <img src="foto1.jpeg" alt="Nossa foto 1"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="foto-placeholder" style="display:none">
+          <span>📸</span>
+          Coloque "foto1.jpg"<br>na mesma pasta
+        </div>
+      </div>
+      <div class="foto-legenda">
+        <!-- ✏️ Escreva aqui a legenda desta foto -->
+        desde o primeiro dia que te vi ...
+      </div>
+      <div class="foto-numero">✦ 01 ✦</div>
+    </div>
+  </div>
+
+  <div class="divider">🌸 💜 🌸</div>
+
+  <!-- ====== FOTO 2 ====== -->
+  <div class="foto-section">
+    <div class="foto-card">
+      <div class="foto-frame">
+        <img src="foto2.jpeg" alt="Nossa foto 2"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="foto-placeholder" style="display:none">
+          <span>📸</span>
+          Coloque "foto2.jpg"<br>na mesma pasta
+        </div>
+      </div>
+      <div class="foto-legenda">
+        <!-- ✏️ Escreva aqui a legenda desta foto -->
+        Cada sorriso teu ilumina meu mundo...
+      </div>
+      <div class="foto-numero">✦ 02 ✦</div>
+    </div>
+  </div>
+
+  <div class="divider">💜 🌺 💜</div>
+
+  <!-- ====== FOTO 3 ====== -->
+  <div class="foto-section">
+    <div class="foto-card">
+      <div class="foto-frame">
+        <img src="foto3.jpeg" alt="Nossa foto 3"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="foto-placeholder" style="display:none">
+          <span>📸</span>
+          Coloque "foto3.jpg"<br>na mesma pasta
+        </div>
+      </div>
+      <div class="foto-legenda">
+        <!-- ✏️ Escreva aqui a legenda desta foto -->
+        Momentos como esse que guardarei para sempre...
+      </div>
+      <div class="foto-numero">✦ 03 ✦</div>
+    </div>
+  </div>
+
+  <div class="divider">🌸 💜 🌸</div>
+
+  <!-- ====== FOTO 4 ====== -->
+  <div class="foto-section">
+    <div class="foto-card">
+      <div class="foto-frame">
+        <img src="foto4.jpeg" alt="Nossa foto 4"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="foto-placeholder" style="display:none">
+          <span>📸</span>
+          Coloque "foto4.jpg"<br>na mesma pasta
+        </div>
+      </div>
+      <div class="foto-legenda">
+        <!-- ✏️ Escreva aqui a legenda desta foto -->
+        Ao seu lado, cada lugar vira paraíso...
+      </div>
+      <div class="foto-numero">✦ 04 ✦</div>
+    </div>
+  </div>
+
+  <div class="divider">💜 🌷 💜</div>
+
+  <!-- ====== FOTO 5 ====== -->
+  <div class="foto-section">
+    <div class="foto-card">
+      <div class="foto-frame">
+        <img src="foto5.jpeg" alt="Nossa foto 5"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="foto-placeholder" style="display:none">
+          <span>📸</span>
+          Coloque "foto5.jpg"<br>na mesma pasta
+        </div>
+      </div>
+      <div class="foto-legenda">
+        <!-- ✏️ Escreva aqui a legenda desta foto -->
+        Te amo hoje, amanhã e sempre... 💜
+      </div>
+      <div class="foto-numero">✦ 05 ✦</div>
+    </div>
+  </div>
+
+  <!--
+  ════════════════════════════════════════
+  ➕ COPIE ESTE BLOCO PARA ADICIONAR MAIS FOTOS:
+
+  <div class="divider">🌸 💜 🌸</div>
+
+  <div class="foto-section">
+    <div class="foto-card">
+      <div class="foto-frame">
+        <img src="foto6.jpg" alt="Nossa foto 6"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="foto-placeholder" style="display:none">
+          <span>📸</span>
+          Coloque "foto6.jpg"<br>na mesma pasta
+        </div>
+      </div>
+      <div class="foto-legenda">
+        Sua legenda aqui...
+      </div>
+      <div class="foto-numero">✦ 06 ✦</div>
+    </div>
+  </div>
+
+  ════════════════════════════════════════
+  -->
+
+</section>
+
+<!-- RODAPÉ -->
+<footer>
+  <span class="heart">💜</span>
+  <em>Feito com todo amor do mundo para você</em>
+  <span class="heart">💜</span>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════
+// 📅 DATA DE INÍCIO DO RELACIONAMENTO
+// 👉 Troque pelo dia em que vocês ficaram juntos!
+//    Formato: new Date('ANO-MÊS-DIA')
+//    Exemplo: new Date('2023-06-15')  = 15 de junho de 2023
+// ══════════════════════════════════════════════
+const dataInicio = new Date('2025-12-22');  // ← MUDE AQUI
+
+function atualizarTimer() {
+  const agora = new Date();
+  let diffMs = agora - dataInicio;
+  if (diffMs < 0) diffMs = 0;
+
+  const seg   = Math.floor(diffMs / 1000) % 60;
+  const min   = Math.floor(diffMs / 60000) % 60;
+  const horas = Math.floor(diffMs / 3600000) % 24;
+  const dias  = Math.floor(diffMs / 86400000) % 30;
+  const meses = Math.floor(diffMs / (86400000 * 30)) % 12;
+  const anos  = Math.floor(diffMs / (86400000 * 365));
+
+  document.getElementById('t-anos').textContent  = String(anos).padStart(2,'0');
+  document.getElementById('t-meses').textContent = String(meses).padStart(2,'0');
+  document.getElementById('t-dias').textContent  = String(dias).padStart(2,'0');
+  document.getElementById('t-horas').textContent = String(horas).padStart(2,'0');
+  document.getElementById('t-min').textContent   = String(min).padStart(2,'0');
+  document.getElementById('t-seg').textContent   = String(seg).padStart(2,'0');
+}
+
+setInterval(atualizarTimer, 1000);
+atualizarTimer();
+
+// ══════════════════════════════════════════════
+// PARTÍCULAS FLUTUANTES
+// ══════════════════════════════════════════════
+const emojis = ['💜','🌸','🌺','🌷','✨','💫','🦋'];
+const container = document.getElementById('particles');
+
+function criarParticula() {
+  const el = document.createElement('div');
+  el.className = 'particle';
+  el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  el.style.animationDuration = (8 + Math.random() * 12) + 's';
+  el.style.animationDelay = Math.random() * 5 + 's';
+  el.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+  container.appendChild(el);
+  setTimeout(() => el.remove(), 20000);
+}
+
+setInterval(criarParticula, 800);
+for(let i=0; i<8; i++) setTimeout(criarParticula, i*300);
+
+// ══════════════════════════════════════════════
+// FADE IN AO ROLAR (Intersection Observer)
+// ══════════════════════════════════════════════
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animation = 'fadeInCard 0.9s ease both';
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.foto-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
