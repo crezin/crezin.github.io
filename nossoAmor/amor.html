@@ -733,7 +733,7 @@ input[type=range].vol-slider::-webkit-slider-thumb {
     <div class="music-controls">
 
       <button class="ctrl-btn play-btn" id="btn-play">▶</button>
-      <button class="ctrl-btn" id="btn-mute">🔊</button>
+      
     </div>
 
     <!-- progresso -->
@@ -1002,7 +1002,6 @@ document.querySelectorAll('.foto-card').forEach(el => observer.observe(el));
 // ===== PLAYER DE MÚSICA =====
 const audio     = document.getElementById('player');
 const btnPlay   = document.getElementById('btn-play');
-const btnMute   = document.getElementById('btn-mute');
 const fill      = document.getElementById('progress-fill');
 const track     = document.getElementById('progress-track');
 const timeCur   = document.getElementById('time-cur');
@@ -1056,14 +1055,6 @@ btnPlay.addEventListener('click', (e) => {
 
 
 
-// mudo
-let muted = false;
-btnMute.addEventListener('click', (e) => {
-  addRipple(btnMute, e);
-  muted = !muted;
-  audio.muted = muted;
-  btnMute.textContent = muted ? '🔇' : '🔊';
-});
 
 
 
