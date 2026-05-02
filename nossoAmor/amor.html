@@ -603,15 +603,26 @@ input[type=range].vol-slider::-webkit-slider-thumb {
     z-index: 10;
   }
 @media (max-width: 600px) {
-  /* reduz duração (menos processamento) */
+
+  /* mantém tudo, mas deixa mais leve */
   * {
-    animation-duration: 2.5s !important;
+    animation-duration: 4s !important;
   }
 
-  /* desliga só as mais pesadas */
-  .particle,
-  #music-player-box::before {
-    display: none !important;
+  /* reduz intensidade das sombras */
+  .titulo-site {
+    text-shadow: 0 0 10px #a855f7;
+  }
+
+  /* ondas da música mais leves */
+  .wave-bar.playing {
+    animation-duration: 1.5s !important;
+  }
+
+  /* partículas mais suaves (sem remover) */
+  .particle {
+    opacity: 0.4;
+    font-size: 0.8rem;
   }
 }
 </style>
@@ -979,7 +990,8 @@ function criarParticula() {
   setTimeout(() => el.remove(), 20000);
 }
 
-setInterval(criarParticula, 2000); // menos partículas
+const intervalo = window.innerWidth < 600 ? 2000 : 800;
+setInterval(criarParticula, intervalo); // menos partículas
 for(let i=0; i<3; i++) setTimeout(criarParticula, i*300);
 
 // ══════════════════════════════════════════════
@@ -1007,7 +1019,7 @@ const volSlider = document.getElementById('vol-slider');
 const wavesDiv  = document.getElementById('waves');
 
 // gera as barras de onda
-const NUM_BARS = 10;
+const NUM_BARS = window.innerWidth < 600 ? 10 : 22;
 const bars = [];
 for (let i = 0; i < NUM_BARS; i++) {
   const b = document.createElement('div');
